@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Správa zvierat{% endblock %}
+
+{% block content %}
+<h1 class="text-center fade-in">Správa zvierat</h1>
+
+<div class="pet-list mt-4">
+    {% if pets %}
+        <!-- Display of pets -->
+        {% for pet in pets %}
+            <div class="pet-card mb-4 fade-in">
+                {% if pet.photo %}
+                    <img src="{{ url_for('static', filename='uploads/' + pet.photo.split('/')[-1]) }}" class="pet-photo" alt="{{ pet.name }}">
+                {% else %}
+                    <img src="{{ url_for('static', filename='uploads/default-pet.png') }}" class="pet-photo" alt="{{ pet.name }}">
+                {% endif %}
+                <div class="pet-info">
+                    <h2>{{ pet.name }}</h2>
+                    <p>Vek: {{ pet.age }} rokov</p>
+                    <p><strong>Rang:</strong> {{ pet.level }}</p> <!-- Added rank display -->
+                    <a href="{{ url_for('pet_tasks', pet_id=pet.id) }}" class="btn btn-outline-primary">
+                        <i class="fas fa-tasks"></i> Úlohy
+                    </a>
+                    <form action="{{ url_for('delete_pet', pet_id=pet.id) }}" method="post" class="d-inline-block ms-2" onsubmit="return confirm('Ste si istý, že chcete odstrániť toto zviera?');">
+                        <button type="submit" class="btn btn-outline-danger">
+                            <i class="fas fa-trash-alt"></i> Odstrániť
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+
+        <!-- Blue cross in the bottom right corner -->
+        <a href="{{ url_for('create_pet') }}" class="float-btn"><i class="fas fa-plus"></i></a>
+
+    {% else %}
+        <!-- Message displayed when there are no pets -->
+        <div class="alert alert-info text-center fade-in" role="alert">
+            Nemáte pridané žiadne zviera. Ak chcete začať používať kŕmidlo, pridajte svoje zviera.
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('create_pet') }}" class="btn btn-primary fade-in">
+                <i class="fas fa-plus"></i> Pridať zviera
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

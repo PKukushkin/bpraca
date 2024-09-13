@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Naplánovať čas kŕmenia{% endblock %}
+
+{% block content %}
+<h1 class="mb-4 fade-in">Naplánovať čas kŕmenia</h1>
+<form action="{{ url_for('schedule', pet_id=pet_id) }}" method="post" class="mb-4 fade-in">
+    <div class="mb-3">
+        <label for="time" class="form-label">Vyberte čas kŕmenia (24-hodinový formát)</label>
+        <input type="time" id="time" name="time" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Nastaviť plán</button>
+</form>
+<a href="{{ url_for('pet_tasks', pet_id=pet_id) }}" class="btn btn-secondary fade-in">Späť na úlohy zvieraťa</a>
+{% endblock %}

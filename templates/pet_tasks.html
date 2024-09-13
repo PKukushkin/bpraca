@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Úlohy pre {{ pet.name }}{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    {% if pet.photo %}
+        <img src="{{ url_for('static', filename='uploads/' + pet.photo.split('/')[-1]) }}" 
+             alt="{{ pet.name }}" 
+             class="rounded-circle mb-4" 
+             style="width: 200px; height: 200px; object-fit: cover;">
+    {% else %}
+        <img src="{{ url_for('static', filename='uploads/default-pet.png') }}" 
+             alt="{{ pet.name }}" 
+             class="rounded-circle mb-4" 
+             style="width: 200px; height: 200px; object-fit: cover;">
+    {% endif %}
+    
+    <h1 class="mb-4">{{ pet.name }}</h1>
+    <p>Vek: {{ pet.age }} rokov</p>
+    <p>Úroveň: {{ pet.level }}</p>
+    <p>Skúsenosti: {{ pet.experience }} XP</p>
+
+    <!-- Button for manually adding feed -->
+    <form action="{{ url_for('feed', pet_id=pet.id) }}" method="post" class="mb-4">
+        <button type="submit" class="btn btn-success"><i class="fas fa-utensils"></i> Nakŕmiť teraz</button>
+    </form>
+
+    <!-- Button to navigate to the statistics page -->
+    <a href="{{ url_for('statistics', pet_id=pet.id) }}" class="btn btn-info mb-4"><i class="fas fa-chart-bar"></i> Zobraziť štatistiky</a>
+
+    <h2 class="mt-5">Naplánované úlohy</h2>
+    <ul class="list-group mb-4">
+        {% for task in pet.tasks %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Úloha na {{ task.hour }}:{{ '%02d' % task.minute }}
+                <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Buttons for management -->
+    <a href="{{ url_for('schedule', pet_id=pet.id) }}" class="btn btn-primary mb-2"><i class="fas fa-calendar-plus"></i> Naplánovať nové kŕmenie</a>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Späť</a>
+</div>
+{% endblock %}

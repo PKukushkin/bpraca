@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Štatistika pre {{ pet.name }}{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="mb-4">Štatistika pre {{ pet.name }}</h1>
+
+    <!-- Toggles for selecting the statistics period -->
+    <div class="btn-group mb-3" role="group" aria-label="Select statistics period">
+        <a href="{{ url_for('statistics', pet_id=pet.id, period='day') }}" class="btn {% if period == 'day' %}btn-primary{% else %}btn-outline-primary{% endif %}">Deň</a>
+        <a href="{{ url_for('statistics', pet_id=pet.id, period='week') }}" class="btn {% if period == 'week' %}btn-primary{% else %}btn-outline-primary{% endif %}">Týždeň</a>
+        <a href="{{ url_for('statistics', pet_id=pet.id, period='month') }}" class="btn {% if period == 'month' %}btn-primary{% else %}btn-outline-primary{% endif %}">Mesiac</a>
+    </div>
+
+    <p>Počet kŕmení za zvolené obdobie: {{ feed_count }}</p>
+    <p>Celkový počet kŕmení: {{ pet.feed_count }}</p>
+
+    <a href="{{ url_for('pet_tasks', pet_id=pet.id) }}" class="btn btn-secondary mt-3"><i class="fas fa-arrow-left"></i> Späť na úlohy</a>
+</div>
+{% endblock %}

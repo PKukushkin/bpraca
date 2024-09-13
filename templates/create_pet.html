@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Vytvoriť nové zviera{% endblock %}
+
+{% block content %}
+<h1 class="mb-4 fade-in">Vytvoriť nové zviera</h1>
+
+<form action="{{ url_for('create_pet') }}" method="post" enctype="multipart/form-data" class="mb-4 fade-in">
+    <div class="form-group">
+        <label for="name" class="form-label">Meno zvieraťa:</label>
+        <input type="text" id="name" name="name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="age" class="form-label">Vek:</label>
+        <input type="number" id="age" name="age" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="photo" class="form-label">Nahrať fotografiu:</label>
+        <input type="file" id="photo" name="photo" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Vytvoriť zviera</button>
+</form>
+<a href="{{ url_for('index') }}" class="btn btn-secondary mt-3 fade-in">Späť</a>
+{% endblock %}
